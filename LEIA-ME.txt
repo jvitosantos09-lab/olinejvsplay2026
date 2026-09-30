@@ -1,0 +1,27 @@
+# JVS PLAY ONLINE — JSONBin + Netlify
+
+## Arquivos
+- `index.html` — JVS PLAY
+- `netlify/functions/jvs-cloud.mjs` — ponte segura entre o site e o JSONBin
+- `netlify.toml` — configuração da Function
+
+## Configuração
+1. No JSONBin, crie um Bin privado contendo `{}` e copie o BIN ID.
+2. Na Netlify, abra o site > Environment variables e crie:
+   - `JSONBIN_MASTER_KEY` = sua Master Key do JSONBin
+   - `JSONBIN_BIN_ID` = ID do Bin
+   - `JVS_ACCESS_PASSWORD` = código que será usado pelas pessoas autorizadas
+3. Faça um novo deploy do projeto.
+4. Abra o site e informe o código de acesso.
+5. No primeiro aparelho, se houver dados locais, use a opção de migrar os dados locais para a nuvem.
+6. Nos demais aparelhos, use o mesmo código para acessar os mesmos dados.
+
+IMPORTANTE:
+- Nunca coloque `JSONBIN_MASTER_KEY` dentro do HTML.
+- O Bin deve permanecer privado.
+- O sistema usa IndexedDB/localStorage como cache local e JSONBin como fonte compartilhada.
+- A sincronização automática verifica mudanças aproximadamente a cada 10 segundos.
+- Se duas pessoas alterarem exatamente os mesmos dados ao mesmo tempo, a última gravação enviada pode prevalecer. O JSONBin mantém versionamento quando habilitado, permitindo recuperação de versões anteriores.
+
+## Limite de tamanho
+A edição atual usa um Bin normal do JSONBin. Para registros JVS abaixo de 1 MB, a API normal é a opção adequada; se o banco crescer além disso, será melhor dividir o banco em vários Bins ou migrar para um banco relacional. O XL Bin do JSONBin existe, mas a própria documentação o classifica como Early Access.
